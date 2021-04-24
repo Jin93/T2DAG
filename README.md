@@ -10,43 +10,30 @@ R package for T2DAG, a DAG-informed high-dimensional two-sample test for mean di
 BiocManager::install("RCy3")
 BiocManager::install("gage") # for KEGG pathway analysis
 BiocManager::install("gageData") # for KEGG pathway analysis
+BiocManager::install("KEGGlincs") 
 BiocManager::install("KEGGprofile") 
+BiocManager::install("KEGGgraph") 
 BiocManager::install("DEGraph")
 BiocManager::install("predictionet")
-BiocManager::install("KEGGgraph") 
 BiocManager::install("clipper")
 # if installation of clipper is unsuccessful: install an old version of gRbase so as to install the package clipper
 # install.packages('~/Downloads/gRbase_1.8-3.tar.gz', repos = NULL, type ='source')
 
-library(KEGGprofile)
 library(gage)
 library(gageData)
+library(KEGGlincs)
+library(KEGGprofile)
 library(KEGGgraph)
 library(DEGraph) # for graph.T2.test
-library(clipper) # for removing an edge from graphNEL
 library(predictionet)
-
-library(mvtnorm)
-library(devtools)
-library(MASS)
-library(data.table)
-library(readr)
-library(stringr) # for str_detect
-library(dplyr)
-library(rrcov)
-library(reshape2) # wide to long
-library(corpcor) # campute partial correlation from correlation matrix
-library(highD2pop)  # for GCT.test - R package from GCT paper (2015)
-library(highmean)
-library(expm) # for sqrtm
-library(readxl)
-
+library(clipper) # for removing an edge from graphNEL
 ```
 
 Install package "T2DAG"
 ``` r
 devtools::install_github("Jin93/T2DAG")
 library(T2DAG)
+# download T2DAG github repository
 setwd('~/T2DAG/') # set path to the Github directory
 ```
 
@@ -61,13 +48,31 @@ setwd('~/T2DAG/') # set path to the Github directory
         1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>1,2</sup>.  
         2. KEGG pathways <sup>3,4,5</sup>.
 
+First, load additional packages needed for data analysis
+```r
+library(mvtnorm)
+library(devtools)
+library(MASS)
+library(data.table)
+library(readr)
+library(stringr) # for str_detect
+library(dplyr)
+library(rrcov)
+library(reshape2) # wide to long
+library(corpcor) # campute partial correlation from correlation matrix
+library(highD2pop)  # for GCT.test - R package from GCT paper (2015)
+library(highmean)
+library(expm) # for sqrtm
+library(readxl)
+```
+
 Load lung-tissue gene expression data.
 
-Note: The file "lung_cancer_gene_expression" was not uploaded due to size limit. Please request this file by emailing jjin31@jhu.edu.
+Download the file "lung_cancer_gene_expression" from [https://www.dropbox.com/sh/amn0bpknsf21d3k/AAAMwz9vJIsfxkzL7p37b84Ha?dl=0](this link). If it does not work, please request this file by emailing jjin31@jhu.edu. Save the file to the directory "data/".
 
 ```r
 ge.file = 'lung_cancer_gene_expression.xlsx'
-ge.dir = 'data/gene_expression/'
+ge.dir = 'data/'
 output.dir = 'data/gene_expression/'
 GE = read_xlsx(paste0(ge.dir,ge.file),sheet = 'Expression', col_names = T, col_types = c('text',rep('numeric',576)))
 ge.genes = GE[,1][[1]]
