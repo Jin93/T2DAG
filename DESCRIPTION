@@ -1,0 +1,45 @@
+Package: T2DAG
+Title: A DAG-informed High-dimensional Two-sample Test for Mean Difference in Gene Expression Levels of a Pathway
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jin",
+           family = "Jin",
+           role = c("aut", "cre"),
+           email = "jjin31@jhu.edu")
+Description: R functions for conducting T2DAG, a DAG-informed high-dimensional two-sample test for mean difference in gene expression levels of a pathway.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/Jin93/T2DAG
+BugReports: https://github.com/Jin93/T2DAG/issues
+Imports: 
+    mvtnorm,
+    devtools,
+    MASS,
+    data.table,
+    corpcor,
+    parallel,
+    dplyr,
+    readr,
+    stringr,
+    readxl,
+    reshape2,
+    inline,
+    expm,
+    highD2pop,
+    highmean,
+    DEGraph,
+    RCy3,
+    RColorBrewer,
+    ggplot2,
+    KEGGprofile,
+    gage,
+    KEGGlincs,
+    predictionet,
+    clipper,
+    expm,
+    gRbase,
+    rrcov
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
