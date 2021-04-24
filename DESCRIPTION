@@ -24,21 +24,10 @@ Imports:
     stringr,
     readxl,
     reshape2,
-    inline,
     expm,
     highD2pop,
     highmean,
-    DEGraph,
-    RCy3,
-    RColorBrewer,
-    ggplot2,
-    KEGGprofile,
-    gage,
-    KEGGlincs,
-    predictionet,
-    clipper,
     expm,
-    gRbase,
     rrcov
 Language: en-US
 Roxygen: list(markdown = TRUE)

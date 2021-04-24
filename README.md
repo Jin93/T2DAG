@@ -4,8 +4,47 @@ R package for T2DAG, a DAG-informed high-dimensional two-sample test for mean di
 
 
 ## Installation
+
+### First, install and load additional R packages
+```r
+BiocManager::install("RCy3")
+BiocManager::install("gage") # for KEGG pathway analysis
+BiocManager::install("gageData") # for KEGG pathway analysis
+BiocManager::install("KEGGprofile") 
+BiocManager::install("DEGraph")
+BiocManager::install("predictionet")
+BiocManager::install("KEGGgraph") 
+BiocManager::install("clipper")
+# if installation of clipper is unsuccessful: install an old version of gRbase so as to install the package clipper
+# install.packages('~/Downloads/gRbase_1.8-3.tar.gz', repos = NULL, type ='source')
+
+library(KEGGprofile)
+library(gage)
+library(gageData)
+library(KEGGgraph)
+library(DEGraph) # for graph.T2.test
+library(clipper) # for removing an edge from graphNEL
+library(predictionet)
+
+library(mvtnorm)
+library(devtools)
+library(MASS)
+library(data.table)
+library(readr)
+library(stringr) # for str_detect
+library(dplyr)
+library(rrcov)
+library(reshape2) # wide to long
+library(corpcor) # campute partial correlation from correlation matrix
+library(highD2pop)  # for GCT.test - R package from GCT paper (2015)
+library(highmean)
+library(expm) # for sqrtm
+library(readxl)
+
+```
+
+Install package "T2DAG"
 ``` r
-# install.packages("devtools")
 devtools::install_github("Jin93/T2DAG")
 library(T2DAG)
 setwd('~/T2DAG/') # set path to the Github directory
@@ -15,46 +54,6 @@ setwd('~/T2DAG/') # set path to the Github directory
 ### Testing the mean difference in the expression levels of genes in a KEGG pathway 
 ### between stage I and stage II lung cancer.
 
-### Install and load additional R packages
-```r
-# BiocManager::install("gage")
-# BiocManager::install("gageData")
-# BiocManager::install("KEGGprofile")
-# BiocManager::install("DEGraph")
-# BiocManager::install("predictionet")
-# BiocManager::install("KEGGgraph") # 
-# BiocManager::install("KEGGlincs")
-# gRbase: install an old version so as to install the package clipper
-# install.packages('~/Downloads/gRbase_1.8-3.tar.gz', repos = NULL, type ='source')
-library(mvtnorm)
-library(devtools)
-library(MASS)
-library(data.table)
-library(readr)
-library(stringr) # for str_detect
-library(dplyr)
-library(ggplot2)
-library(RColorBrewer)
-library(rrcov)
-library(reshape2) # wide to long
-library(corpcor) # campute partial correlation from correlation matrix
-library(KEGGprofile)
-library(gage)
-library(KEGGlincs)
-library(Rcpp)
-library(RcppArmadillo)
-library(inline)
-library(highD2pop)  # for GCT.test - R package from GCT paper (2015)
-library(highmean)
-library(DEGraph) # for graph.T2.test
-library(clipper) # for removing an edge from graphNEL
-library(expm) # for sqrtm
-library(gRbase)
-library(gageData)
-library(KEGGgraph)
-library(readxl)
-library(predictionet)
-```
 
 ### Step 1: data preparation
 
@@ -371,19 +370,24 @@ $test.results
 
 
 
-##  References:
-      1. Cancer Genome Atlas Research Network, 2014. Comprehensive molecular profiling of lung adenocarcinoma. Nature, 511(7511), p.543.
-      2. Cai, L., Lin, S., Girard, L., Zhou, Y., Yang, L., Ci, B., Zhou, Q., Luo, D., Yao, B., Tang, H. and Allen, J., 2019. LCE: an open web portal to explore gene expression and clinical associations in lung cancer. Oncogene, 38(14), pp.2551-2564.
-      3. KEGG pathways. 
-      [ftp://ftp.genome.ad.jp/pub/kegg/pathways](ftp://ftp.genome.ad.jp/pub/kegg/pathways)
-      4. Kanehisa, M. and Goto, S., 2000. KEGG: kyoto encyclopedia of genes and genomes. Nucleic acids research, 28(1), pp.27-30.
-      5. Kanehisa, M., Sato, Y., Furumichi, M., Morishima, K. and Tanabe, M., 2019. New approach for understanding genome variations in KEGG. Nucleic acids research, 47(D1), pp.D590-D595.
-      6. A powerful test for differentially expressed gene pathways via graph-informed structural equation modeling.
-      7. Jacob, L., Neuvial, P. and Dudoit, S., 2012. More power via graph-structured tests for differential expression of gene networks. The Annals of Applied Statistics, pp.561-600.
-      8. Hotelling, H., 1992. The generalization of Student’s ratio. In Breakthroughs in statistics (pp. 54-65). Springer, New York, NY.
-      9. Chen, S.X. and Qin, Y.L., 2010. A two-sample test for high-dimensional data with applications to gene-set testing. The Annals of Statistics, 38(2), pp.808-835.
-      10. Srivastava, M.S. and Kubokawa, T., 2013. Tests for multivariate analysis of variance in high dimension under non-normality. Journal of Multivariate Analysis, 115, pp.204-216.
-      11. Cai, T.T., Liu, W. and Xia, Y., 2014. Two-sample test of high dimensional means under dependence. Journal of the Royal Statistical Society: Series B: Statistical Methodology, pp.349-372.
-      12. Gregory, K.B., Carroll, R.J., Baladandayuthapani, V. and Lahiri, S.N., 2015. A two-sample test for equality of means in high dimension. Journal of the American Statistical Association, 110(510), pp.837-849.
-      13. Xu, G., Lin, L., Wei, P. and Pan, W., 2016. An adaptive two-sample test for high-dimensional means. Biometrika, 103(3), pp.609-624.
 
+###  References
+  1. Cancer Genome Atlas Research Network, 2014. Comprehensive molecular profiling of lung adenocarcinoma. Nature, 511(7511), p.543.
+  2. Cai, L., Lin, S., Girard, L., Zhou, Y., Yang, L., Ci, B., Zhou, Q., Luo, D., Yao, B., Tang, H. and Allen, J., 2019. LCE: an open web portal to explore gene expression and clinical associations in lung cancer. Oncogene, 38(14), pp.2551-2564.
+  3. KEGG pathways. 
+      [ftp://ftp.genome.ad.jp/pub/kegg/pathways](ftp://ftp.genome.ad.jp/pub/kegg/pathways)
+  4. Kanehisa, M. and Goto, S., 2000. KEGG: kyoto encyclopedia of genes and genomes. Nucleic acids research, 28(1), pp.27-30.
+  5. Kanehisa, M., Sato, Y., Furumichi, M., Morishima, K. and Tanabe, M., 2019. New approach for understanding genome variations in KEGG. Nucleic acids research, 47(D1), pp.D590-D595.
+  6. A powerful test for differentially expressed gene pathways via graph-informed structural equation modeling.
+  7. Jacob, L., Neuvial, P. and Dudoit, S., 2012. More power via graph-structured tests for differential expression of gene networks. The Annals of Applied Statistics, pp.561-600.
+  8. Hotelling, H., 1992. The generalization of Student’s ratio. In Breakthroughs in statistics (pp. 54-65). Springer, New York, NY.
+  9. Chen, S.X. and Qin, Y.L., 2010. A two-sample test for high-dimensional data with applications to gene-set testing. The Annals of Statistics, 38(2), pp.808-835.
+  10. Srivastava, M.S. and Kubokawa, T., 2013. Tests for multivariate analysis of variance in high dimension under non-normality. Journal of Multivariate Analysis, 115, pp.204-216.
+  11. Cai, T.T., Liu, W. and Xia, Y., 2014. Two-sample test of high dimensional means under dependence. Journal of the Royal Statistical Society: Series B: Statistical Methodology, pp.349-372.
+  12. Gregory, K.B., Carroll, R.J., Baladandayuthapani, V. and Lahiri, S.N., 2015. A two-sample test for equality of means in high dimension. Journal of the American Statistical Association, 110(510), pp.837-849.
+  13. Xu, G., Lin, L., Wei, P. and Pan, W., 2016. An adaptive two-sample test for high-dimensional means. Biometrika, 103(3), pp.609-624.
+
+
+###  Contact
+
+  Jin Jin (jjin31@jhu.edu)
