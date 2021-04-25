@@ -5,7 +5,7 @@ R package for T2DAG, a DAG-informed high-dimensional two-sample test for mean di
 
 ## Installation
 
-### First, install and load additional R packages
+### Install and load the following R packages
 ```r
 BiocManager::install("RCy3")
 BiocManager::install("gage") # for KEGG pathway analysis
@@ -29,7 +29,7 @@ library(predictionet)
 library(clipper) # for removing an edge from graphNEL
 ```
 
-Install package "T2DAG"
+### Install package "T2DAG"
 ``` r
 devtools::install_github("Jin93/T2DAG")
 library(T2DAG)
@@ -37,9 +37,8 @@ library(T2DAG)
 setwd('~/T2DAG-main/') # set path to the Github directory
 ```
 
-## Example data analysis
-### Testing the mean difference in the expression levels of genes in a KEGG pathway 
-### between stage I and stage II lung cancer.
+## Example data analysis:
+Testing the mean difference in the expression levels of genes in a KEGG pathway between stage I and stage II lung cancer.
 
 
 ### Step 1: data preparation
@@ -48,7 +47,7 @@ setwd('~/T2DAG-main/') # set path to the Github directory
         1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>1,2</sup>.  
         2. KEGG pathways <sup>3,4,5</sup>.
 
-First, load additional packages needed for data analysis
+Load additional packages needed for data analysis
 ```r
 library(mvtnorm)
 library(devtools)
@@ -68,7 +67,7 @@ library(readxl)
 
 Load lung-tissue gene expression data.
 
-Download the file "lung_cancer_gene_expression" from [https://www.dropbox.com/scl/fi/bb8nco5y3dlked6dckjmo/lung_cancer_gene_expression.xlsx?dl=0&rlkey=kc9ec0bq60qjysxw6tfi40pwf](this link). If it does not work, please request this file by emailing jjin31@jhu.edu. Save the file to the directory "data/".
+Download the file "lung_cancer_gene_expression" from [this link](https://www.dropbox.com/scl/fi/bb8nco5y3dlked6dckjmo/lung_cancer_gene_expression.xlsx?dl=0&rlkey=kc9ec0bq60qjysxw6tfi40pwf). If it does not work, please request this file by emailing jjin31@jhu.edu. Save the file to the directory "data/".
 
 ```r
 ge.file = 'lung_cancer_gene_expression.xlsx'
@@ -377,7 +376,7 @@ $test.results
 
 
 
-###  References
+##  References
   1. Cancer Genome Atlas Research Network, 2014. Comprehensive molecular profiling of lung adenocarcinoma. Nature, 511(7511), p.543.
   2. Cai, L., Lin, S., Girard, L., Zhou, Y., Yang, L., Ci, B., Zhou, Q., Luo, D., Yao, B., Tang, H. and Allen, J., 2019. LCE: an open web portal to explore gene expression and clinical associations in lung cancer. Oncogene, 38(14), pp.2551-2564.
   3. KEGG pathways. 
@@ -394,6 +393,7 @@ $test.results
   13. Xu, G., Lin, L., Wei, P. and Pan, W., 2016. An adaptive two-sample test for high-dimensional means. Biometrika, 103(3), pp.609-624.
 
 
-###  Contact
+##  Author Information
 
-  Jin Jin (jjin31@jhu.edu)
+* Jin Jin  Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health jjin31@jhu.edu
+* Yue Wang  School of Mathematical and Natural Sciences, Arisona State University Yue.Wang.Stat@asu.edu
