@@ -65,11 +65,9 @@ library(expm) # for sqrtm
 library(readxl)
 ```
 
-Load lung-tissue gene expression data.
-
 Download the file "lung_cancer_gene_expression" from [this link](https://www.dropbox.com/scl/fi/bb8nco5y3dlked6dckjmo/lung_cancer_gene_expression.xlsx?dl=0&rlkey=kc9ec0bq60qjysxw6tfi40pwf). If the link does not work, please contact jjin31@jhu.edu to request for this example file. 
 
-Save the file to the directory "data/".
+Save the file to the directory "data/" and load lung-tissue gene expression data.
 
 ```r
 ge.file = 'lung_cancer_gene_expression.xlsx'
@@ -100,12 +98,13 @@ kegg.pathways = tem[[1]]
 kegg.names = tem[[2]]
 ```
 
-#### Prepare external pathway information for one pathway and the corresponding gene expression data
 
-Randomly select one pathway from KEGG pathway list
+### Now we show an example of the analysis on the pathway "p53 signaling pathway"
+
+Prepare the corresponding pathway information and gene expression data
 ```r
 set.seed(1234)
-pathway.index = sample(1:length(kegg.pathways), size=1, replace=F)
+pathway.index = 28
 pathwayID = kegg.pathways[pathway.index]
 getKGMLurl(pathwayID)
 tmp <- paste0(pathway.dir,pathwayID,'.xml')
@@ -114,7 +113,7 @@ pathway <- parseKGML(tmp)
 ```
 
 
-Summarize pathway node and edge information
+Summarize node and edge information of the pathway
 ```r
 ### Gene names and indices in the DAG
 nodes <- nodes(pathway)
@@ -169,7 +168,7 @@ n.expression = sum(edge.info[,3] == 'expression')
 n.repression = sum(edge.info[,3] == 'repression')
 ```
 
-Construct adjacency matrix, which will be used in the hypothesis test.
+Construct adjacency matrices that will be used in the Graph T2 test and T2DAG test.
 ```r
 # ------- Construct A0, the adjacency matrix for Graph.T2 test -------
 # which does not necessarily corresponds to a DAG 
@@ -210,7 +209,7 @@ p0 = sum(nonzero.A > 0)
 sparsity = sum(abs(A) > 0)/p^2
 ```
 
-Quality control of gene expression data
+Extract gene expression data
 ```r
 comparison = 'tumor-tumor'; 
 grp1 = 'I'; grp2 = 'II' # stages of lung cancer to compare
@@ -248,7 +247,7 @@ if (comparison == 'tumor-tumor'){
 }
 ```
 
-### Step 2. Conduct hypothesis test
+### Step 2. Conduct hypothesis tests
 
 ```r
 graphT2.p = 0.8 # parameter used in graph T2 test
