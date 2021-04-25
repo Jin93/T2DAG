@@ -1,10 +1,10 @@
 # T2DAG
 
-R package for T2DAG, a DAG-informed high-dimensional two-sample test for mean difference in gene expression levels of a pathway. The method efficiently leverages edge information in the gene pathway through a linear structural equation model. 
+R package for T2DAG, a DAG-informed high-dimensional two-sample test for mean difference in gene expression levels of a pathway. In addition to gene expression data, the method aims to improve power by efficiently leveraging axiliary pathway information on gene interactions through a linear structural equation model. 
 
 
 ## Installation
-
+a DAG-informed high-dimensional two-sample test for mean difference in gene expression levels of a pathway#
 ### Install and load the following R packages
 ```r
 BiocManager::install("RCy3")
@@ -65,7 +65,7 @@ library(expm) # for sqrtm
 library(readxl)
 ```
 
-Download the file "lung_cancer_gene_expression" from [this link](https://www.dropbox.com/scl/fi/bb8nco5y3dlked6dckjmo/lung_cancer_gene_expression.xlsx?dl=0&rlkey=kc9ec0bq60qjysxw6tfi40pwf). If the link does not work, please contact jjin31@jhu.edu to request for this example file. 
+Download the file "lung_cancer_gene_expression" from [this link](https://www.dropbox.com/scl/fi/bb8nco5y3dlked6dckjmo/lung_cancer_gene_expression.xlsx?dl=0&rlkey=kc9ec0bq60qjysxw6tfi40pwf). If the link does not work, please contact jjin31@jhu.edu to request for the file. 
 
 Save the file to the directory "data/" and load lung-tissue gene expression data.
 
@@ -250,11 +250,8 @@ if (comparison == 'tumor-tumor'){
 ### Step 2. Conduct hypothesis tests
 
 ```r
-graphT2.p = 0.8 # parameter used in graph T2 test
 alpha = 0.05 # significance level for the hypothesis test.
 methods = c("T2DAG","Graph.T2","T2","CH-Q","SK","CLX","GCT","aSPU")
-
-
 pval=rep(NA,length(methods)) # a vector that stores p values of the various tests
 rej=rep(NA,length(methods)) # a vector that stores conclusion of the various tests
 # 1: H0 rejected, 0: H0 not rejected
@@ -325,7 +322,7 @@ rej["CLX"] = ifelse(pval["CLX"]<alpha,1,0)
 #### 7. GCT test<sup>12</sup>
 ```r
 if (p >= 20){
-  GCT.results = GCT.test(X,Y,r=ceiling(2/3*p^(1/2)), ntoorderminus = 0)#r=10) # In their paper r=L=10,15,20, smaller l leads to larger pvalue and smaller power.
+  GCT.results = GCT.test(X,Y,r=ceiling(2/3*p^(1/2)), ntoorderminus = 0) # In their paper r=L=10,15,20, smaller l leads to larger pvalue and smaller power.
   pval["GCT"] = GCT.results$pvalue
   rej["GCT"] = ifelse(GCT.results$pvalue<alpha,1,0)
 }
@@ -365,9 +362,9 @@ output = list(basic.info = data.frame(n1=n[1], n2=n[2], p=p, n.edges=nrow(edge.i
 # output
 $basic.info
    n1  n2  p n.edges n.loops d p0 sparsity n.activation n.inhibition
-1 278 124 60      56       0 6 44    0.015           12            7
+  278 124 60      56       0 6 44    0.015           12            7
   n.expression n.repression n.circles
-1           37            0         0
+            37            0         0
 
 $test.results
    T2DAG Graph.T2       T2     CH-Q       SK      CLX      GCT     aSPU 
