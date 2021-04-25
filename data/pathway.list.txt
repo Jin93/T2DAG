@@ -1,3 +1,4 @@
+ID Name
 hsa01521 "EGFR tyrosine kinase inhibitor resistance"
 hsa01522 "Endocrine resistance"
 hsa01523 "Antifolate resistance"
