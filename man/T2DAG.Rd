@@ -2,7 +2,7 @@
 % Please edit documentation in R/T2DAG.R
 \name{T2DAG}
 \alias{T2DAG}
-\title{Performs the T2DAG test.}
+\title{T2-DAG test}
 \usage{
 T2DAG(X, Y, A)
 }
@@ -14,18 +14,91 @@ T2DAG(X, Y, A)
 \item{A}{The binary adjacency matrix, where an entry aij=0 indicates no directed relationship
 from variable i to variable j, and aij=1 indicates that there exists a directed relationship
 from variable i to variable j.}
-
-\item{Qest}{The estimate of the coefficient matrix Q.}
-
-\item{Rdiag}{The estimate of the covariance matrix of the residuals.}
-
-\item{T2DAG.stat}{T2DAG test statistic.}
-
-\item{T2DAG.pval}{Conclusion of the T2DAG test. 1 if H0 rejected and 0 otherwise.}
 }
 \value{
 A list that contains the following elements:
+\item{Qest}{The estimate of the coefficient matrix Q.}
+\item{Rdiag}{The estimate of the covariance matrix of the residuals.}
+\item{T2DAG.stat}{T2DAG test statistic.}
+\item{T2DAG.pval}{P-value of the T2DAG test.}
 }
 \description{
-Performs the T2DAG test.
+DAG-informed two-sample test for mean difference in a vector of gene expression levels of a pathway.
+}
+\examples{
+data('pathway.list',package='T2DAG')
+idx = 8
+pathwayID = pathway.list[[1]][idx]
+kegg.names = pathway.list[[2]][idx]
+getKGMLurl(pathwayID)
+tmp <- paste0(pathway.dir,pathwayID,'.xml')
+if (!file.exists(tmp)) retrieveKGML(pathwayid=substr(pathwayID,4,8), organism='hsa', destfile=tmp, method="curl")
+pathway <- parseKGML(tmp)
+
+### Gene names and indices in the DAG
+nodes <- nodes(pathway)
+types = sapply(1:length(nodes),function(x){getType(nodes[[x]])})
+genes = sapply(1:length(nodes),function(x){substr(getName(nodes[[x]])[1],5,nchar(getName(nodes[[x]])[1]))})[types == 'gene'] # 279, only keep the first gene in each node
+genes.index = names(nodes)[(types == 'gene')]
+genes.index = genes.index[(genes \%in\% ge.genes)] # extract indices of the genes that have expression data available
+genes = genes[genes \%in\% ge.genes]
+names(genes) = genes.index
+
+edges <- edges(pathway)
+edge.node = t(sapply(1:length(edges),function(x){getEntryID(edges[[x]])}))
+keep.indx = which(((edge.node[,1] \%in\% genes.index)&(edge.node[,2] \%in\% genes.index)) == T)
+edge.node = edge.node[keep.indx,] # remove nodes that are not genes
+
+## get subtype name
+# https://www.kegg.jp/kegg/xml/docs/
+edge.subtype = lapply(1:length(edges),function(x){getSubtype(edges[[x]])})
+edge.subtype.length = sapply(1:length(edge.subtype),function(x){length(edge.subtype[[x]])})
+edge.types = vector('list',length(edge.subtype.length))
+tem.indx = which(edge.subtype.length == 0)
+if (length(tem.indx)>0){
+  edge.types[-tem.indx] <- lapply(c(1:length(edges))[-tem.indx],function(x){getSubtype(edges[[x]])[[1]]})
+  edge.type = rep(NA,length(edge.types))
+  edge.type[-tem.indx] <- sapply(c(1:length(edges))[-tem.indx],function(x){getName(edge.types[[x]])})
+}
+if (length(tem.indx)==0){
+   edge.types <- lapply(c(1:length(edges)),function(x){getSubtype(edges[[x]])[[1]]})
+   edge.type = rep(NA,length(edge.types))
+   edge.type <- sapply(c(1:length(edges)),function(x){getName(edge.types[[x]])})
+}
+edge.type = edge.type[keep.indx]
+
+keep.edge.types = c('activation','inhibition','expression','repression')
+edge.info = cbind(matrix(edge.node,ncol=2),matrix(edge.type,ncol=1))
+if (nrow(edge.info) > 0) edge.info = matrix(edge.info[complete.cases(edge.info),],ncol=3)
+if (nrow(edge.info) > 0) edge.info = matrix(edge.info[edge.info[,3] \%in\% keep.edge.types,],ncol=3)
+if (length(edge.info) == 3) edge.info = matrix(edge.info,nrow=1)
+
+#Remove duplicated genes
+edge.info[,1] = genes[edge.info[,1]]
+edge.info[,2] = genes[edge.info[,2]]
+tem.idx = which(duplicated(edge.info))
+if (length(tem.idx)>0) edge.info = edge.info[-tem.idx,]
+genes = unique(genes)
+n.activation = sum(edge.info[,3] == 'activation'); n.inhibition = sum(edge.info[,3] == 'inhibition')
+n.expression = sum(edge.info[,3] == 'expression'); n.repression = sum(edge.info[,3] == 'repression')
+
+# ------- Construct A, the binary adjacency matrix used for the T2DAG test -------
+A = matrix(0, length(genes), length(genes))
+#### Z = QZ + E, Qij: j->i
+for (i in 1:nrow(edge.info)) A[which(genes == edge.info[i,2]), which(genes == edge.info[i,1])] = 1
+diag(A) = 0
+#### remove circles
+a=adj.remove.cycles(A,maxlength=length(genes))
+A = a$adjmat.acyclic
+
+#### Load example gene expression data.
+data('X',package='T2DAG')
+data('Y',package='T2DAG')
+
+# T2DAG test
+T2DAG.results = T2DAG(X, Y, A)
+
+}
+\references{
+
 }

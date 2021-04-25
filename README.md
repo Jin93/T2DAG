@@ -1,10 +1,11 @@
 # T2DAG
 
-R package for T2DAG, a DAG-informed high-dimensional two-sample test for mean difference in gene expression levels of a pathway. In addition to gene expression data, the method aims to improve power by efficiently leveraging axiliary pathway information on gene interactions through a linear structural equation model. 
+R package for T2DAG, a DAG-informed two-sample test for mean difference in the vector of gene expression levels of a pathway. In addition to gene expression data, the method efficiently leveraging axiliary pathway information on gene interactions through a linear structural equation model. 
 
 
 ## Installation
-a DAG-informed high-dimensional two-sample test for mean difference in gene expression levels of a pathway#
+
+
 ### Install and load the following R packages
 ```r
 BiocManager::install("RCy3")
@@ -92,10 +93,9 @@ sampleinfo = sampleinfo[sampleinfo[,'Sam_Patient'] %in% rownames(patientinfo),]
 
 Load pathway information.
 ```r
-pathway.dir = 'data/pathways/'
-tem = read_delim('data/pathways/pathway.list.txt', delim=' ', col_names = F)
-kegg.pathways = tem[[1]]
-kegg.names = tem[[2]]
+data('pathway.list',package='T2DAG')
+kegg.pathways = pathway.list[[1]]
+kegg.names = pathway.list[[2]]
 ```
 
 
@@ -105,6 +105,7 @@ Prepare the corresponding pathway information and gene expression data
 ```r
 set.seed(1234)
 pathway.index = 28
+pathway.dir = 'data/'
 pathwayID = kegg.pathways[pathway.index]
 getKGMLurl(pathwayID)
 tmp <- paste0(pathway.dir,pathwayID,'.xml')
@@ -262,7 +263,7 @@ names(pval) = names(rej) = methods
 ```r
 T2DAG.results = T2DAG(X, Y, A)
 pval['T2DAG'] =  T2DAG.results$T2DAG.pval
-rej['T2DAG'] = T2DAG.results$T2DAG.rej
+rej['T2DAG'] = ifelse(T2DAG.results$T2DAG.pval<alpha,1,0)
 ```
 
 #### 2. Graph T2 test<sup>7</sup>

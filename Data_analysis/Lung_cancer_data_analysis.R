@@ -69,7 +69,9 @@ sampleinfo = sampleinfo[sampleinfo[,'Sam_Patient'] %in% rownames(patientinfo),]
 pathway.dir = 'data/pathways/'
 data(kegg.sets.hs)
 kegg.pathways1 = data.frame(id=substr(names(kegg.sets.hs),1,8), name=substr(names(kegg.sets.hs),10,1000)) # 229
-kegg.pathways2 = fread('data/pathways/kegg.hs.list.txt',header=F) # 337, 226 overlap with kegg.pathways1
+#kegg.pathways2 = fread('data/pathways/kegg.hs.list.txt',header=F) # 337, 226 overlap with kegg.pathways1
+data('kegg.hs.list',package='T2DAG')
+kegg.pathways2 = kegg.hs.list # 337, 226 overlap with kegg.pathways1
 kegg.pathways2 = as.data.frame(kegg.pathways2)
 kegg.pathways2[,1] = substr(kegg.pathways2[,1], 6,13)
 kegg.pathways2[,2] = sapply(1:nrow(kegg.pathways2),function(x){strsplit(kegg.pathways2[x,2], ' -')[[1]][1]})
@@ -87,8 +89,8 @@ kegg.names.subset = data.frame(pathways=rownames(results)) # 206
 kegg.pathways.subset = kegg.pathways.combine[which(kegg.names %in% kegg.names.subset[,1]),]  # 210
 kegg.pathways.subset = kegg.pathways.subset[-c(32,39,40,55),] # remove duplicated pathways
 # remove duplicate
-write_delim(kegg.pathways.subset, 'data/pathways/pathway.list.txt', delim=' ', col_names = F)
-
+#fwrite(kegg.pathways.subset, 'data/pathway.list.txt', sep=' ', col.names=T)
+save(kegg.pathways.subset, 'data/pathway.list.RData')
 
 
 
