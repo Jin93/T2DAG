@@ -67,7 +67,9 @@ library(readxl)
 
 Load lung-tissue gene expression data.
 
-Download the file "lung_cancer_gene_expression" from [this link](https://www.dropbox.com/scl/fi/bb8nco5y3dlked6dckjmo/lung_cancer_gene_expression.xlsx?dl=0&rlkey=kc9ec0bq60qjysxw6tfi40pwf). If it does not work, please request this file by emailing jjin31@jhu.edu. Save the file to the directory "data/".
+Download the file "lung_cancer_gene_expression" from [this link](https://www.dropbox.com/scl/fi/bb8nco5y3dlked6dckjmo/lung_cancer_gene_expression.xlsx?dl=0&rlkey=kc9ec0bq60qjysxw6tfi40pwf). If the link does not work, please contact jjin31@jhu.edu to request for this example file. 
+
+Save the file to the directory "data/".
 
 ```r
 ge.file = 'lung_cancer_gene_expression.xlsx'
