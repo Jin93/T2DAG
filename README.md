@@ -33,8 +33,8 @@ Install package "T2DAG"
 ``` r
 devtools::install_github("Jin93/T2DAG")
 library(T2DAG)
-# download T2DAG github repository
-setwd('~/T2DAG/') # set path to the Github directory
+# download T2DAG github repository and set path to the folder "T2DAG-main"
+setwd('~/T2DAG-main/') # set path to the Github directory
 ```
 
 ## Example data analysis
@@ -68,7 +68,7 @@ library(readxl)
 
 Load lung-tissue gene expression data.
 
-Download the file "lung_cancer_gene_expression" from [https://www.dropbox.com/sh/amn0bpknsf21d3k/AAAMwz9vJIsfxkzL7p37b84Ha?dl=0](this link). If it does not work, please request this file by emailing jjin31@jhu.edu. Save the file to the directory "data/".
+Download the file "lung_cancer_gene_expression" from [https://www.dropbox.com/scl/fi/bb8nco5y3dlked6dckjmo/lung_cancer_gene_expression.xlsx?dl=0&rlkey=kc9ec0bq60qjysxw6tfi40pwf](this link). If it does not work, please request this file by emailing jjin31@jhu.edu. Save the file to the directory "data/".
 
 ```r
 ge.file = 'lung_cancer_gene_expression.xlsx'
@@ -336,7 +336,7 @@ if (p < 20){
 }
 ```
 
-#### 7. aSPU test<sup>13</sup>
+#### 8. aSPU test<sup>13</sup>
 ```r
 if (p>=50){
   aspu = apval_aSPU(sam1=X,sam2=Y) # default: eq.cov = TRUE
@@ -352,10 +352,9 @@ if (p<50){
 }
 ```
 
-```r
 
-```
-#### Hypothesis testing results
+
+### Hypothesis testing results
 ```r
 output = list(basic.info = data.frame(n1=n[1], n2=n[2], p=p, n.edges=nrow(edge.info),
                                       n.loops = n.loops, d=d, p0=p0, sparsity = signif(sparsity,2),
@@ -365,12 +364,14 @@ output = list(basic.info = data.frame(n1=n[1], n2=n[2], p=p, n.edges=nrow(edge.i
               test.results = signif(pval,2))
 # output
 $basic.info
-   n1  n2  p n.edges n.loops d p0 sparsity n.activation n.inhibition n.expression n.repression n.circles
-1 278 124 50      45       0 5 29    0.018           43            2            0            0         0
+   n1  n2  p n.edges n.loops d p0 sparsity n.activation n.inhibition
+1 278 124 60      56       0 6 44    0.015           12            7
+  n.expression n.repression n.circles
+1           37            0         0
 
 $test.results
    T2DAG Graph.T2       T2     CH-Q       SK      CLX      GCT     aSPU 
-  0.0016   0.4400   0.0740   0.0280   0.0470   0.1700   0.0085   0.1800 
+ 4.2e-11  2.3e-03  6.7e-03  3.6e-04  3.4e-03  1.9e-02  8.9e-04  3.0e-03
 ```
 
 
