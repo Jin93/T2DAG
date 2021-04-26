@@ -1,6 +1,6 @@
 # T2DAG
 
-R package for T2DAG, a DAG-informed two-sample test for mean difference in the vector of gene expression levels of a pathway. In addition to gene expression data, the method efficiently leveraging axiliary pathway information on gene interactions through a linear structural equation model. 
+R package for T2-DAG, a DAG-informed two-sample test for mean difference in the vector of gene expression levels of a pathway. In addition to gene expression data, the method efficiently leveraging axiliary pathway information on gene interactions through a linear structural equation model. 
 
 
 ## Installation
@@ -8,9 +8,9 @@ R package for T2DAG, a DAG-informed two-sample test for mean difference in the v
 
 ### Install and load the following R packages
 ```r
-BiocManager::install("RCy3")
 BiocManager::install("gage") # for KEGG pathway analysis
 BiocManager::install("gageData") # for KEGG pathway analysis
+BiocManager::install("RCy3")
 BiocManager::install("KEGGlincs") 
 BiocManager::install("KEGGprofile") 
 BiocManager::install("KEGGgraph") 
@@ -45,8 +45,8 @@ Testing the mean difference in the expression levels of genes in a KEGG pathway 
 ### Step 1: data preparation
 
 #### Data sources (All GWAS samples are of European ancestry):
-        1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>1,2</sup>.  
-        2. KEGG pathways <sup>3,4,5</sup>.
+    1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>1,2</sup>.  
+    2. KEGG pathways<sup>3,4,5</sup>.
 
 Load additional packages needed for data analysis
 ```r
