@@ -1,6 +1,6 @@
 # T2DAG
 
-R package for T2-DAG, a DAG-informed two-sample test for mean difference in the vector of gene expression levels of a pathway. In addition to gene expression data, the method efficiently leveraging axiliary pathway information on gene interactions through a linear structural equation model. 
+R package for T2-DAG, a DAG-informed two-sample test for mean difference in the vector of gene expression levels of a pathway. In addition to gene expression data, the method efficiently leverages axiliary pathway information on gene interactions through a linear structural equation model. 
 
 
 ## Installation
@@ -394,5 +394,5 @@ $test.results
 
 ##  Author Information
 
-* Jin Jin  Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health jjin31@jhu.edu
-* Yue Wang  School of Mathematical and Natural Sciences, Arisona State University Yue.Wang.Stat@asu.edu
+* Jin Jin,  Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health jjin31@jhu.edu
+* Yue Wang,  School of Mathematical and Natural Sciences, Arisona State University Yue.Wang.Stat@asu.edu
