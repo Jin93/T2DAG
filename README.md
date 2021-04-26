@@ -45,8 +45,8 @@ Testing the mean difference in the expression levels of genes in a KEGG pathway 
 ### Step 1: data preparation
 
 #### Data sources (All GWAS samples are of European ancestry):
-    1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>1,2</sup>.  
-    2. KEGG pathways<sup>3,4,5</sup>.
+  1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>1,2</sup>.  
+  2. KEGG pathways<sup>3,4,5</sup>.
 
 Load additional packages needed for data analysis
 ```r
