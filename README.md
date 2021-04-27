@@ -359,7 +359,7 @@ output = list(basic.info = data.frame(n1=n[1], n2=n[2], p=p, n.edges=nrow(edge.i
                                       n.activation = n.activation, n.inhibition = n.inhibition,
                                       n.expression = n.expression, n.repression = n.repression,
                                       n.circles = n.circles),
-              test.results = signif(pval,2))
+              pvalues = signif(pval,2))
 # output
 $basic.info
    n1  n2  p n.edges n.loops d p0 sparsity n.activation n.inhibition
@@ -367,7 +367,7 @@ $basic.info
   n.expression n.repression n.circles
             37            0         0
 
-$test.results
+$pvalues
    T2DAG Graph.T2       T2     CH-Q       SK      CLX      GCT     aSPU 
  4.2e-11  2.3e-03  6.7e-03  3.6e-04  3.4e-03  1.9e-02  8.9e-04  3.0e-03
 ```
