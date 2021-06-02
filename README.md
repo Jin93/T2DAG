@@ -1,6 +1,6 @@
 # T2DAG
 
-R package for T2-DAG, a DAG-informed two-sample test for mean difference in the vector of gene expression levels of a pathway. In addition to gene expression data, the method efficiently leverages axiliary pathway information on gene interactions through a linear structural equation model. 
+R package for T2-DAG, a DAG-informed two-sample test for mean difference in the vector of gene expression levels of a pathway<sup>1</sup>. In addition to gene expression data, the method efficiently leverages axiliary pathway information on gene interactions through a linear structural equation model. 
 
 
 ## Installation
@@ -45,8 +45,8 @@ Testing the mean difference in the expression levels of genes in a KEGG pathway 
 ### Step 1: data preparation
 
 #### Data sources (All GWAS samples are of European ancestry):
-  1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>1,2</sup>.  
-  2. KEGG pathways<sup>3,4,5</sup>.
+  1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>2,3</sup>.  
+  2. KEGG pathways<sup>4,5,6</sup>.
 
 Load additional packages needed for data analysis
 ```r
@@ -259,7 +259,7 @@ rej=rep(NA,length(methods)) # a vector that stores conclusion of the various tes
 names(pval) = names(rej) = methods
 ```
 
-#### 1. T2-DAG test<sup>6</sup>
+#### 1. T2-DAG test<sup>1</sup>
 ```r
 T2DAG.results = T2DAG(X, Y, A)
 pval['T2DAG'] =  T2DAG.results$T2DAG.pval
@@ -373,16 +373,14 @@ $pvalues
 ```
 
 
-
-
 ##  References
-  1. Cancer Genome Atlas Research Network, 2014. Comprehensive molecular profiling of lung adenocarcinoma. Nature, 511(7511), p.543.
-  2. Cai, L., Lin, S., Girard, L., Zhou, Y., Yang, L., Ci, B., Zhou, Q., Luo, D., Yao, B., Tang, H. and Allen, J., 2019. LCE: an open web portal to explore gene expression and clinical associations in lung cancer. Oncogene, 38(14), pp.2551-2564.
-  3. KEGG pathways. 
+  1. Jin, J. and Wang, Y., 2021. A powerful test for differentially expressed gene pathways via graph-informed structural equation modeling. arXiv preprint arXiv:2105.07570.
+  2. Cancer Genome Atlas Research Network, 2014. Comprehensive molecular profiling of lung adenocarcinoma. Nature, 511(7511), p.543.
+  3. Cai, L., Lin, S., Girard, L., Zhou, Y., Yang, L., Ci, B., Zhou, Q., Luo, D., Yao, B., Tang, H. and Allen, J., 2019. LCE: an open web portal to explore gene expression and clinical associations in lung cancer. Oncogene, 38(14), pp.2551-2564.
+  4. KEGG pathways. 
       [ftp://ftp.genome.ad.jp/pub/kegg/pathways](ftp://ftp.genome.ad.jp/pub/kegg/pathways)
-  4. Kanehisa, M. and Goto, S., 2000. KEGG: kyoto encyclopedia of genes and genomes. Nucleic acids research, 28(1), pp.27-30.
-  5. Kanehisa, M., Sato, Y., Furumichi, M., Morishima, K. and Tanabe, M., 2019. New approach for understanding genome variations in KEGG. Nucleic acids research, 47(D1), pp.D590-D595.
-  6. A powerful test for differentially expressed gene pathways via graph-informed structural equation modeling.
+  5. Kanehisa, M. and Goto, S., 2000. KEGG: kyoto encyclopedia of genes and genomes. Nucleic acids research, 28(1), pp.27-30.
+  6. Kanehisa, M., Sato, Y., Furumichi, M., Morishima, K. and Tanabe, M., 2019. New approach for understanding genome variations in KEGG. Nucleic acids research, 47(D1), pp.D590-D595.
   7. Jacob, L., Neuvial, P. and Dudoit, S., 2012. More power via graph-structured tests for differential expression of gene networks. The Annals of Applied Statistics, pp.561-600.
   8. Hotelling, H., 1992. The generalization of Student’s ratio. In Breakthroughs in statistics (pp. 54-65). Springer, New York, NY.
   9. Chen, S.X. and Qin, Y.L., 2010. A two-sample test for high-dimensional data with applications to gene-set testing. The Annals of Statistics, 38(2), pp.808-835.
