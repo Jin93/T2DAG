@@ -1,6 +1,6 @@
 # T2DAG
 
-R package for T2-DAG, a DAG-informed two-sample test for mean difference in the vector of gene expression levels of a pathway<sup>1</sup>. In addition to gene expression data, the method efficiently leverages axiliary pathway information on gene interactions through a linear structural equation model. 
+R package for T2-DAG, a DAG-informed two-sample test for mean difference in the vector of gene expression levels of a pathway. In addition to gene expression data, the method efficiently leverages axiliary pathway information on gene interactions through a linear structural equation model. 
 
 
 ## Installation
@@ -45,8 +45,8 @@ Testing the mean difference in the expression levels of genes in a KEGG pathway 
 ### Step 1: data preparation
 
 #### Data sources (All GWAS samples are of European ancestry):
-  1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>2,3</sup>.  
-  2. KEGG pathways<sup>4,5,6</sup>.
+  1. Gene expression data collected from lung tissues of different lung cancer stages (normal, stage I, II, III, and IV) for lung cancer patients obtained from the Cancer Genome Atlas (TCGA) Program<sup>1,2</sup>.  
+  2. KEGG pathways<sup>3,4,5</sup>.
 
 Load additional packages needed for data analysis
 ```r
@@ -60,8 +60,9 @@ library(dplyr)
 library(rrcov)
 library(reshape2) # wide to long
 library(corpcor) # campute partial correlation from correlation matrix
-library(highD2pop)  # for GCT.test - R package from GCT paper (2015)
-library(highmean)
+library(highD2pop)  # GCT.test - R package from GCT paper (2015)
+library(highmean) # aSPU test
+library(ARHT) # ARHT test
 library(expm) # for sqrtm
 library(readxl)
 ```
@@ -252,14 +253,14 @@ if (comparison == 'tumor-tumor'){
 
 ```r
 alpha = 0.05 # significance level for the hypothesis test.
-methods = c("T2DAG","Graph.T2","T2","CH-Q","SK","CLX","GCT","aSPU")
+methods = c("T2DAG","Graph.T2","T2","CH-Q","SK","CLX","GCT","aSPU","ARHT")
 pval=rep(NA,length(methods)) # a vector that stores p values of the various tests
 rej=rep(NA,length(methods)) # a vector that stores conclusion of the various tests
 # 1: H0 rejected, 0: H0 not rejected
 names(pval) = names(rej) = methods
 ```
 
-#### 1. T2-DAG test<sup>1</sup>
+#### 1. T2-DAG test<sup>6</sup>
 ```r
 T2DAG.results = T2DAG(X, Y, A)
 pval['T2DAG'] =  T2DAG.results$T2DAG.pval
@@ -350,6 +351,12 @@ if (p<50){
 }
 ```
 
+#### 9. ARHT test<sup>14</sup>
+```r
+  res.arht = ARHT(X, Y) # X, Y: n x p
+  pval["ARHT"] = res.arht$ARHT_pvalue
+  rej["ARHT"] = ifelse(pval["ARHT"]<alpha,1,0)
+```
 
 
 ### Hypothesis testing results
@@ -373,14 +380,16 @@ $pvalues
 ```
 
 
+
+
 ##  References
-  1. Jin, J. and Wang, Y., 2021. A powerful test for differentially expressed gene pathways via graph-informed structural equation modeling. arXiv preprint arXiv:2105.07570.
-  2. Cancer Genome Atlas Research Network, 2014. Comprehensive molecular profiling of lung adenocarcinoma. Nature, 511(7511), p.543.
-  3. Cai, L., Lin, S., Girard, L., Zhou, Y., Yang, L., Ci, B., Zhou, Q., Luo, D., Yao, B., Tang, H. and Allen, J., 2019. LCE: an open web portal to explore gene expression and clinical associations in lung cancer. Oncogene, 38(14), pp.2551-2564.
-  4. KEGG pathways. 
+  1. Cancer Genome Atlas Research Network, 2014. Comprehensive molecular profiling of lung adenocarcinoma. Nature, 511(7511), p.543.
+  2. Cai, L., Lin, S., Girard, L., Zhou, Y., Yang, L., Ci, B., Zhou, Q., Luo, D., Yao, B., Tang, H. and Allen, J., 2019. LCE: an open web portal to explore gene expression and clinical associations in lung cancer. Oncogene, 38(14), pp.2551-2564.
+  3. KEGG pathways. 
       [ftp://ftp.genome.ad.jp/pub/kegg/pathways](ftp://ftp.genome.ad.jp/pub/kegg/pathways)
-  5. Kanehisa, M. and Goto, S., 2000. KEGG: kyoto encyclopedia of genes and genomes. Nucleic acids research, 28(1), pp.27-30.
-  6. Kanehisa, M., Sato, Y., Furumichi, M., Morishima, K. and Tanabe, M., 2019. New approach for understanding genome variations in KEGG. Nucleic acids research, 47(D1), pp.D590-D595.
+  4. Kanehisa, M. and Goto, S., 2000. KEGG: kyoto encyclopedia of genes and genomes. Nucleic acids research, 28(1), pp.27-30.
+  5. Kanehisa, M., Sato, Y., Furumichi, M., Morishima, K. and Tanabe, M., 2019. New approach for understanding genome variations in KEGG. Nucleic acids research, 47(D1), pp.D590-D595.
+  6. A powerful test for differentially expressed gene pathways via graph-informed structural equation modeling.
   7. Jacob, L., Neuvial, P. and Dudoit, S., 2012. More power via graph-structured tests for differential expression of gene networks. The Annals of Applied Statistics, pp.561-600.
   8. Hotelling, H., 1992. The generalization of Student’s ratio. In Breakthroughs in statistics (pp. 54-65). Springer, New York, NY.
   9. Chen, S.X. and Qin, Y.L., 2010. A two-sample test for high-dimensional data with applications to gene-set testing. The Annals of Statistics, 38(2), pp.808-835.
@@ -388,7 +397,7 @@ $pvalues
   11. Cai, T.T., Liu, W. and Xia, Y., 2014. Two-sample test of high dimensional means under dependence. Journal of the Royal Statistical Society: Series B: Statistical Methodology, pp.349-372.
   12. Gregory, K.B., Carroll, R.J., Baladandayuthapani, V. and Lahiri, S.N., 2015. A two-sample test for equality of means in high dimension. Journal of the American Statistical Association, 110(510), pp.837-849.
   13. Xu, G., Lin, L., Wei, P. and Pan, W., 2016. An adaptive two-sample test for high-dimensional means. Biometrika, 103(3), pp.609-624.
-
+  14. Li, H., Aue, A., Paul, D., Peng, J. and Wang, P. 2020. An adaptable generalization of hotelling’s t2 test in high dimension. The Annals of Statistics, 48(3), pp.1815–1847.
 
 ##  Author Information
 
