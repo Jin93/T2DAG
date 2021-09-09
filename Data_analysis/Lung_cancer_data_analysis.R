@@ -5,6 +5,7 @@ setwd('~/T2DAG/')
 # BiocManager::install("DEGraph")
 # BiocManager::install("predictionet")
 # BiocManager::install("KEGGgraph")
+# BiocManager::install("clipper")
 library(T2DAG)
 library(mvtnorm)
 library(devtools)
@@ -44,7 +45,7 @@ library(rrcov)
 
 graphT2.p = 0.8 # parameter used in graph T2 test
 alpha = 0.05 # significance level for the hypothesis test.
-methods = c("T2DAG","Graph.T2","T2","CH-Q","SK","CLX","GCT","aSPU")
+methods = c("T2DAG","Graph.T2","T2","CH-Q","SK","CLX","GCT","aSPU","ARHT")
 #Load lung-tissue gene expression data.
 ge.file = 'lung_cancer_gene_expression.xlsx'
 ge.dir = 'data/gene_expression/'

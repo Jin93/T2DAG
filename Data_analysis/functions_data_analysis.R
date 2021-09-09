@@ -225,6 +225,12 @@ KEGG_testing = function(pathwayID){
         rej["aSPU"] = ifelse(pval["aSPU"]<alpha,1,0)
         aspu.lambda = aspu$pow[which.min(aspu$pval)] # selected lambda
       }
+
+      ###################### ARHT: ######################
+      res.arht = ARHT(X, Y) # X, Y: n x p
+      pval["ARHT"] = res.arht$ARHT_pvalue
+      rej["ARHT"] = ifelse(pval["ARHT"]<alpha,1,0)
+
       basic.info = c(as.character(round(c(unlist(n),p,nrow(edge.info),length(loops.index),d,p0),0)),signif(sparsity,3),n.activation,n.inhibition,n.expression,n.repression,n.circles)
       names(basic.info) = c('n_x', 'n_y','p','n.edge','n.loop','d','p0','sparisty','n.activation','n.inhibition','n.expression','n.repression','n.circles')
       print(paste0('Pathway ', pathway.index, ': ', pathwayID,' Completed'))
